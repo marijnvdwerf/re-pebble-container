@@ -12,8 +12,21 @@ jobs:
       matrix:
         include:
           - gcc: 4.8.0
-            var: CT_GCC_V_4_8
-            var2: CT_ISL_V_0_11=y
+          - gcc: 4.8.1
+          - gcc: 4.8.2
+          - gcc: 4.8.3
+          - gcc: 4.8.4
+          - gcc: 4.8.5
+
+          - gcc: 4.9.0
+          - gcc: 4.9.1
+          - gcc: 4.9.2
+          - gcc: 4.9.3
+          # 4.9.4 is released *after* timelineOS came to the OG
+
+          - gcc: 5.1.0
+          - gcc: 5.2.0
+          - gcc: 5.3.0
 
     steps:
       - uses: actions/checkout@v2
@@ -34,10 +47,20 @@ jobs:
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
-          echo '${{matrix.var}}=y' >> defconfig
-          echo '${{matrix.var2}}=y' >> defconfig
+      - run: |
+          echo 'CT_GCC_V_4_8=y' >> defconfig
+          echo 'CT_ISL_V_0_11=y' >> defconfig
+        if: ${{ startsWith(matrix.gcc, "4.8.") }}
+      - run: echo 'CT_GCC_V_4_9=y' >> defconfig
+        if: ${{ startsWith(matrix.gcc, "4.9.") }}
+      - run: echo 'CT_GCC_V_5=y' >> defconfig
+        if: ${{ startsWith(matrix.gcc, "5.") }}
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
+      - uses: 'actions/upload-artifact@v2'
+        with:
+          name: gcc-arm-none-eabi-${{ matrix.gcc }}
+          path: ${{ github.workspace }}
       - run: ls -al
         if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain/.build
