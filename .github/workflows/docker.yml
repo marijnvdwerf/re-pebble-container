@@ -50,11 +50,11 @@ jobs:
       - run: |
           echo 'CT_GCC_V_4_8=y' >> defconfig
           echo 'CT_ISL_V_0_11=y' >> defconfig
-        if: ${{ startsWith(matrix.gcc, "4.8.") }}
+        if: ${{ startsWith(matrix.gcc, '4.8.') }}
       - run: echo 'CT_GCC_V_4_9=y' >> defconfig
-        if: ${{ startsWith(matrix.gcc, "4.9.") }}
+        if: ${{ startsWith(matrix.gcc, '4.9.') }}
       - run: echo 'CT_GCC_V_5=y' >> defconfig
-        if: ${{ startsWith(matrix.gcc, "5.") }}
+        if: ${{ startsWith(matrix.gcc, '5.') }}
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
       - uses: 'actions/upload-artifact@v2'
