@@ -13,21 +13,28 @@ jobs:
       matrix:
         include:
           - gcc: 4.8.0
-            isl: 11.0
+            isl: 11
           - gcc: 4.8.1
+            isl: 11
           - gcc: 4.8.2
           - gcc: 4.8.3
           - gcc: 4.8.4
           - gcc: 4.8.5
 
           - gcc: 4.9.0
+            isl: 12
           - gcc: 4.9.1
+            isl: 12
           - gcc: 4.9.2
+            isl: 12
           - gcc: 4.9.3
+            isl: 14
           # 4.9.4 is released *after* timelineOS came to the OG
 
           - gcc: 5.1.0
+            isl: 12
           - gcc: 5.2.0
+            isl: 12
           - gcc: 5.3.0
 
     steps:
@@ -49,7 +56,7 @@ jobs:
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
-      - run: echo 'CT_ISL_V_0_11=y' >> defconfig
+      - run: echo 'CT_ISL_V_0_${{ matrix.isl }}=y' >> defconfig
         if: ${{ matrix.isl }}
       - run: echo 'CT_GCC_V_4_8=y' >> defconfig
         if: ${{ startsWith(matrix.gcc, '4.8.') }}
