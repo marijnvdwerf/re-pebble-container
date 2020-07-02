@@ -9,9 +9,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
           - gcc: 4.8.0
+            isl: 11.0
           - gcc: 4.8.1
           - gcc: 4.8.2
           - gcc: 4.8.3
@@ -47,9 +49,9 @@ jobs:
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
-      - run: |
-          echo 'CT_GCC_V_4_8=y' >> defconfig
-          echo 'CT_ISL_V_0_11=y' >> defconfig
+      - run: echo 'CT_ISL_V_0_11=y' >> defconfig
+        if: ${{ matrix.isl }}
+      - run: echo 'CT_GCC_V_4_8=y' >> defconfig
         if: ${{ startsWith(matrix.gcc, '4.8.') }}
       - run: echo 'CT_GCC_V_4_9=y' >> defconfig
         if: ${{ startsWith(matrix.gcc, '4.9.') }}
