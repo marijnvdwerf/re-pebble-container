@@ -43,6 +43,7 @@ jobs:
       - run: tree ${{github.workspace}}/toolchain/.build
         if: ${{ always() }}
       - run: find ${{github.workspace}}/toolchain/.build -iname '*.log'
+      - run: find ${{github.workspace}}/toolchain/.build -iname '*.log' -exec cat {} \;
         if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain
         if: ${{ always() }}
