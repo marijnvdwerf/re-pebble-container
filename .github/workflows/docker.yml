@@ -12,6 +12,7 @@ jobs:
       matrix:
         include:
           - gcc: 4.8.0
+            var: CT_GCC_V_4_8
 
     steps:
       - uses: actions/checkout@v2
@@ -31,5 +32,6 @@ jobs:
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
+          echo '${{matrix.var}}=y' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
