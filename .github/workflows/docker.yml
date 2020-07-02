@@ -28,6 +28,6 @@ jobs:
           echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
-          echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}.tar.bz2"' >> defconfig
+          echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
