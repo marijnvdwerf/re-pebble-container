@@ -18,6 +18,8 @@ jobs:
       - run: sudo apt install help2man libtool-bin libncurses5-dev
       - name: Download release
         run: wget "https://ftp.gnu.org/gnu/gcc/gcc-${{matrix.gcc}}/gcc-${{matrix.gcc}}.tar.bz2"
+      - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2"
+      - run: ls
       - run: |
           echo 'CT_CONFIG_VERSION="3"' > defconfig
           echo 'CT_ARCH_ARM=y' >> defconfig
@@ -26,6 +28,6 @@ jobs:
           echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
-          echo 'CT_GCC_CUSTOM_LOCATION="gcc-${{matrix.gcc}}.tar.bz2"' >> defconfig
+          echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}.tar.bz2"' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
