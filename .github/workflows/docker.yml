@@ -18,8 +18,10 @@ jobs:
       - run: sudo apt install help2man libtool-bin libncurses5-dev
       - name: Download release
         run: wget "https://ftp.gnu.org/gnu/gcc/gcc-${{matrix.gcc}}/gcc-${{matrix.gcc}}.tar.bz2"
-      - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2"
-      - run: ls
+      - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2" -C ${{runner.workspace}}
+      - run: pwd
+      - run: ls ${{runner.workspace}}
+      - run: ls ${{runner.workspace}}/gcc-${{matrix.gcc}}
       - run: |
           echo 'CT_CONFIG_VERSION="3"' > defconfig
           echo 'CT_ARCH_ARM=y' >> defconfig
