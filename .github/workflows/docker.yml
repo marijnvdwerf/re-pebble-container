@@ -12,5 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt install help2man libtool-bin libncurses5-dev
+      - run: |
+          echo 'CT_CONFIG_VERSION="3"' > defconfig
+          echo 'CT_ARCH_ARM=y' >> defconfig
+          echo 'CT_TARGET_VENDOR="none"' >> defconfig
+          echo 'CT_LOG_PROGRESS_BAR=n' >> defconfig
+          echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
