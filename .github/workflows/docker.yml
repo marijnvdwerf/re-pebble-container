@@ -38,6 +38,10 @@ jobs:
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
       - run: ls -al
         if: ${{ always() }}
+      - run: ls -al ${{github.workspace}}/toolchain/.build
+        if: ${{ always() }}
+      - run: cat ${{github.workspace}}/toolchain/.build/build.log
+        if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain
         if: ${{ always() }}
       - run: cat ${{github.workspace}}/toolchain/config.log
