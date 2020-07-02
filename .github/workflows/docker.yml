@@ -69,7 +69,7 @@ jobs:
       - uses: 'actions/upload-artifact@v2'
         with:
           name: gcc-arm-none-eabi-${{ matrix.gcc }}
-          path: ${{ github.workspace }}
+          path: ${{ github.workspace }}/out
       - run: ls -al
         if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain/.build
