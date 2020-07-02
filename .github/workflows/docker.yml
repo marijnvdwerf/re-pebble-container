@@ -8,6 +8,10 @@ env:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - gcc: 4.8.0
 
     steps:
       - uses: actions/checkout@v2
@@ -18,5 +22,6 @@ jobs:
           echo 'CT_TARGET_VENDOR="none"' >> defconfig
           echo 'CT_LOG_PROGRESS_BAR=n' >> defconfig
           echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
+          echo 'CT_GCC_CUSTOM_LOCATION="https://ftp.gnu.org/gnu/gcc/${{matrix.gcc}}/${{matrix.gcc}}.tar.bz2"' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
