@@ -29,6 +29,7 @@ jobs:
           echo 'CT_TARGET_VENDOR="none"' >> defconfig
           echo 'CT_LOG_PROGRESS_BAR=n' >> defconfig
           echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
+          echo 'CT_OBSOLETE=y' >> defconfig
           echo 'CT_EXPERIMENTAL=y' >> defconfig
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
