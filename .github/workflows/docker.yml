@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: sudo apt install help2man libtool-bin libncurses5-dev
+      - run: sudo apt install help2man libtool-bin libncurses5-dev tree
       - name: Download release
         run: wget "https://ftp.gnu.org/gnu/gcc/gcc-${{matrix.gcc}}/gcc-${{matrix.gcc}}.tar.bz2"
       - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2" -C ${{runner.workspace}}
@@ -40,7 +40,9 @@ jobs:
         if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain/.build
         if: ${{ always() }}
-      - run: cat ${{github.workspace}}/toolchain/.build/build.log
+      - run: tree ${{github.workspace}}/toolchain/.build
+        if: ${{ always() }}
+      - run: find ${{github.workspace}}/toolchain/.build -iname '*.log'
         if: ${{ always() }}
       - run: ls -al ${{github.workspace}}/toolchain
         if: ${{ always() }}
