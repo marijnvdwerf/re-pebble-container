@@ -11,5 +11,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt install help2man
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
