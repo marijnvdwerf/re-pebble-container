@@ -36,11 +36,11 @@ jobs:
           echo '${{matrix.var}}=y' >> defconfig
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
-      - run: ls
+      - run: ls -al
         if: ${{ always() }}
-      - run: ls ${{github.workspace}}/toolchain
+      - run: ls -al ${{github.workspace}}/toolchain
         if: ${{ always() }}
-      - run: ls ${{github.workspace}}/toolchain/config.log
+      - run: cat ${{github.workspace}}/toolchain/config.log
         if: ${{ always() }}
-      - run: ls ${{github.workspace}}/toolchain/build.log
+      - run: cat ${{github.workspace}}/toolchain/build.log
         if: ${{ always() }}
