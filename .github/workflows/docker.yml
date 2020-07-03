@@ -72,6 +72,12 @@ jobs:
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
       - run: ls -al ${{runner.workspace}}
       - uses: 'actions/upload-artifact@v2'
+        if: ${{ !matrix.vanilla }}
         with:
           name: gcc-arm-none-eabi-${{ matrix.gcc }}
+          path: ${{ runner.workspace }}/out
+      - uses: 'actions/upload-artifact@v2'
+        if: ${{ matrix.vanilla }}
+        with:
+          name: gcc-arm-none-eabi-${{ matrix.gcc }}-vanilla
           path: ${{ runner.workspace }}/out
