@@ -61,9 +61,11 @@ jobs:
         if: ${{ startsWith(matrix.gcc, '4.9.') }}
       - run: echo 'CT_GCC_V_5=y' >> defconfig
         if: ${{ startsWith(matrix.gcc, '5.') }}
+      - run: mkdir ${{runner.workspace}}/out
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
+      - run: ls -al ${{runner.workspace}}
       - uses: 'actions/upload-artifact@v2'
         with:
           name: gcc-arm-none-eabi-${{ matrix.gcc }}
-          path: ${{ github.workspace }}/out
+          path: ${{ runner.workspace }}/out
