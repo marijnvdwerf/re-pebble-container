@@ -71,17 +71,25 @@ jobs:
       - name: Show defconfig
         run: cat defconfig
 
+      - run: echo '::set-env name=TOOLCHAIN::gcc-arm-none-eabi-${{ matrix.gcc }}'
+      - run: echo '::set-env name=TOOLCHAIN::${{ env.TOOLCHAIN }}-vanilla'
+        if: ${{ matrix.vanilla }}
+      - run: echo $TOOLCHAIN
+
       - run: mkdir ${{runner.workspace}}/out
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
       - run: ls -al ${{runner.workspace}}
+
+      - run: tar czf ${{ env.TOOLCHAIN }}.tar.gz -C ${{ runner.workspace }}/out .
       - uses: 'actions/upload-artifact@v2'
-        if: ${{ !matrix.vanilla }}
         with:
-          name: gcc-arm-none-eabi-${{ matrix.gcc }}
-          path: ${{ runner.workspace }}/out
+          name: ${{ env.TOOLCHAIN }}.tar.gz
+          path: ${{ env.TOOLCHAIN }}.tar.gz
+
+
+      - run: mkdir ${{ runner.workspace }}/logs
       - uses: 'actions/upload-artifact@v2'
-        if: ${{ matrix.vanilla }}
         with:
-          name: gcc-arm-none-eabi-${{ matrix.gcc }}-vanilla
-          path: ${{ runner.workspace }}/out
+          name: ${{ env.TOOLCHAIN }}-logs
+          path: ${{ runner.workspace }}/logs
