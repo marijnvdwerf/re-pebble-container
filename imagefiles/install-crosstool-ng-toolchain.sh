@@ -59,7 +59,7 @@ cd "${CTNG}"
 # Download and install the "crosstool-ng" source.
 REV=1.24.0
 curl -# -LO \
-  "https://github.com/crosstool-ng/crosstool-ng/archive/master.zip
+  "https://github.com/crosstool-ng/crosstool-ng/archive/master.zip"
 unzip "master.zip"
 cd "crosstool-ng-master"
 
