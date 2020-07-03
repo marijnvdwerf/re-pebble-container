@@ -20,6 +20,8 @@ jobs:
           - gcc: 4.8.3
           - gcc: 4.8.4
           - gcc: 4.8.5
+          - gcc: 4.8.5
+            vanilla: true
 
           - gcc: 4.9.0
             isl: 12
@@ -42,7 +44,9 @@ jobs:
       - run: sudo apt install help2man libtool-bin libncurses5-dev
       - name: Download release
         run: wget "https://ftp.gnu.org/gnu/gcc/gcc-${{matrix.gcc}}/gcc-${{matrix.gcc}}.tar.bz2"
+        if: ${{ !matrix.vanilla }}
       - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2" -C ${{runner.workspace}}
+        if: ${{ !matrix.vanilla }}
       - run: |
           echo 'CT_CONFIG_VERSION="3"' > defconfig
           echo 'CT_ARCH_ARM=y' >> defconfig
@@ -51,8 +55,10 @@ jobs:
           echo 'CT_CC_GCC_EXTRA_CONFIG_ARRAY="--with-gnu-ld --with-gnu-as"' >> defconfig
           echo 'CT_OBSOLETE=y' >> defconfig
           echo 'CT_EXPERIMENTAL=y' >> defconfig
+      - run: |
           echo 'CT_GCC_SRC_CUSTOM=y' >> defconfig
           echo 'CT_GCC_CUSTOM_LOCATION="${{runner.workspace}}/gcc-${{matrix.gcc}}"' >> defconfig
+        if: ${{ !matrix.vanilla }}
       - run: echo 'CT_ISL_V_0_${{ matrix.isl }}=y' >> defconfig
         if: ${{ matrix.isl }}
       - run: echo 'CT_GCC_V_4_8=y' >> defconfig
