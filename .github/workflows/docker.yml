@@ -39,13 +39,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: sudo apt install help2man libtool-bin libncurses5-dev tree
+      - run: sudo apt install help2man libtool-bin libncurses5-dev
       - name: Download release
         run: wget "https://ftp.gnu.org/gnu/gcc/gcc-${{matrix.gcc}}/gcc-${{matrix.gcc}}.tar.bz2"
       - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2" -C ${{runner.workspace}}
-      - run: pwd
-      - run: ls ${{runner.workspace}}
-      - run: ls ${{runner.workspace}}/gcc-${{matrix.gcc}}
       - run: |
           echo 'CT_CONFIG_VERSION="3"' > defconfig
           echo 'CT_ARCH_ARM=y' >> defconfig
@@ -70,18 +67,3 @@ jobs:
         with:
           name: gcc-arm-none-eabi-${{ matrix.gcc }}
           path: ${{ github.workspace }}/out
-      - run: ls -al
-        if: ${{ always() }}
-      - run: ls -al ${{github.workspace}}/toolchain/.build
-        if: ${{ always() }}
-      - run: tree ${{github.workspace}}/toolchain/.build
-        if: ${{ always() }}
-      - run: find ${{github.workspace}}/toolchain/.build -iname '*.log'
-      - run: find ${{github.workspace}}/toolchain/.build -iname '*.log' -exec cat {} \;
-        if: ${{ always() }}
-      - run: ls -al ${{github.workspace}}/toolchain
-        if: ${{ always() }}
-      - run: cat ${{github.workspace}}/toolchain/config.log
-        if: ${{ always() }}
-      - run: cat ${{github.workspace}}/toolchain/build.log
-        if: ${{ always() }}
