@@ -47,6 +47,7 @@ jobs:
         if: ${{ !matrix.vanilla }}
       - run: tar xjf "gcc-${{matrix.gcc}}.tar.bz2" -C ${{runner.workspace}}
         if: ${{ !matrix.vanilla }}
+
       - run: |
           echo 'CT_CONFIG_VERSION="3"' > defconfig
           echo 'CT_ARCH_ARM=y' >> defconfig
@@ -67,6 +68,9 @@ jobs:
         if: ${{ startsWith(matrix.gcc, '4.9.') }}
       - run: echo 'CT_GCC_V_5=y' >> defconfig
         if: ${{ startsWith(matrix.gcc, '5.') }}
+      - name: Show defconfig
+        run: cat defconfig
+
       - run: mkdir ${{runner.workspace}}/out
       - name: Build the toolchain
         run: ${{github.workspace}}/imagefiles/install-crosstool-ng-toolchain.sh -p ${{runner.workspace}}/out -c defconfig
