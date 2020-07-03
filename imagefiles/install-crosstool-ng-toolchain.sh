@@ -59,9 +59,9 @@ cd "${CTNG}"
 # Download and install the "crosstool-ng" source.
 REV=1.24.0
 curl -# -LO \
-  "https://github.com/crosstool-ng/crosstool-ng/archive/crosstool-ng-${REV}.tar.gz"
-tar -xf "crosstool-ng-${REV}.tar.gz"
-cd "crosstool-ng-crosstool-ng-${REV}"
+  "https://github.com/crosstool-ng/crosstool-ng/archive/master.zip
+unzip "master.zip"
+cd "crosstool-ng-master"
 
 # Bootstrap and install the tool.
 BOOTSTRAP_PREFIX="${CTNG}/prefix"
